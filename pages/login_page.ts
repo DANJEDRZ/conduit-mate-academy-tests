@@ -1,10 +1,9 @@
 import type { Page, Locator } from '@playwright/test';
+import BasePage from './base_page';
 
-export default class LoginPage {
-    private page: Page
-
+export default class LoginPage extends BasePage<LoginPage> {
     constructor(page: Page) {
-        this.page = page;
+        super(page, '/user/login')
     }
 
     elements = {
@@ -12,11 +11,7 @@ export default class LoginPage {
         passwordInput: () => this.page.getByRole('textbox', { name: 'Password' }),
         signInButton: () => this.page.getByRole('button', { name: 'Sign in' }),
         errorMessage: () => this.page.locator('ul.error-messages'),
-        logginPageWrapper: () => this.page.locator('div.auth-page')
-    }
-
-    async open() {
-        await this.page.goto('/user/login');
+        pageWrapper: () => this.page.locator('div.auth-page')
     }
 
     async login(email: string, password: string) {
@@ -24,6 +19,4 @@ export default class LoginPage {
         await this.elements.passwordInput().fill(password);
         await this.elements.signInButton().click();
     }
-
-
 }

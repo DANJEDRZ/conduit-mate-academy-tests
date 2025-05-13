@@ -1,18 +1,12 @@
-import { Page, expect } from '@playwright/test';
+import { Page } from '@playwright/test';
+import BasePage from './base_page';
 
-export default class homePage {
-    private page: Page
-
+export default class HomePage extends BasePage<HomePage> {
     constructor(page: Page) {
-        this.page = page;
+        super(page, '/')
     }
 
     elements = {
-        homePageWrapperElement: () => this.page.locator('div.home-page')
-    }
-
-    async assertIsOpen() {
-        await expect(this.page).toHaveURL('https://conduit.mate.academy/');
-        await expect(this.elements.homePageWrapperElement()).toBeVisible();
+        pageWrapper: () => this.page.locator('div.home-page')
     }
 }
