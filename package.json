@@ -1,0 +1,26 @@
+{
+  "name": "conduit-mate-academy-tests",
+  "version": "0.0.1",
+  "description": "E2E tests for Conduit Mate Academy",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DANJEDRZ/conduit-mate-academy-tests.git"
+  },
+  "keywords": [
+    "Playwright",
+    "E2E",
+    "Conduit Mate Academy"
+  ],
+  "author": "Daniel Jedrzejak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DANJEDRZ/conduit-mate-academy-tests/issues"
+  },
+  "homepage": "https://github.com/DANJEDRZ/conduit-mate-academy-tests#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.17"
+  }
+}
