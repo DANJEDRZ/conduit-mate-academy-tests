@@ -18,7 +18,7 @@ test.describe('Login tests', () => {
     await login_page.open();
     await login_page.login(email, password);
 
-    await home_page.assertPageIsOpen();
+    await home_page.assertIsOpen();
   });
 
   test('User cannot login with incorrect credentials', async () => {
@@ -38,7 +38,7 @@ test.describe('Login tests', () => {
     await login_page.open();
     await login_page.login(userName, password);
 
-    await expect(home_page.elements.pageWrapper()).not.toBeVisible();
+    await expect(home_page.elements.componentWrapper()).not.toBeVisible();
     await expect(page).toHaveScreenshot(screenshotName);
   });
 
@@ -52,7 +52,7 @@ test.describe('Login tests', () => {
       await login_page.open();
       await login_page.login(email, password);
 
-      await expect(home_page.elements.pageWrapper()).not.toBeVisible();
+      await expect(home_page.elements.componentWrapper()).not.toBeVisible();
       await expect(page).toHaveScreenshot(screenshotName);
     });
   });

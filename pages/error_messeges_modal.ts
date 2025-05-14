@@ -1,9 +1,9 @@
 import { Page } from '@playwright/test';
-import BasePage from './base_page';
+import BaseModal from './base_modal';
 
-export default class HomePage extends BasePage {
+export default class ErrorMessagesModal extends BaseModal {
     constructor(page: Page) {
-        super(page, '/')
+        super(page);
     }
 
     elements = {

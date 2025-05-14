@@ -5,10 +5,17 @@ import testData from '../utils/testData';
 import ArticlePage from '../pages/article_page';
 import HomePage from '../pages/home_page';
 import TestHelpers from '../utils/TestHelpers';
+import { ArticleData } from '../data-models/article.types';
+import Assertions from '../utils/assertions';
 
 
 test.describe('Article creation tests', () => {
-    const articleData = { title: 'Test article title', description: 'Test article description', content: 'Test article content', taggs: ['tag1', 'tag2'] }
+    const articleData: ArticleData = {
+        title: 'Test article title',
+        description: 'Test article description',
+        content: 'Test article content',
+        taggs: ['tag1', 'tag2']
+    }
     const { email, password } = testData.getUserData();
     let new_article_page: NewArticlePage
     let login_page: LoginPage
@@ -23,27 +30,39 @@ test.describe('Article creation tests', () => {
     });
 
     test('User can create an acrticle', async ({ page }) => {
-        const createArticleResponsePromise = page.waitForResponse('**/api/articles');
+        const createAericleCall = page.waitForResponse('**/api/articles');
 
         await login_page.open();
         await login_page.login(email, password);
-        await home_page.assertPageIsOpen();
+        await home_page.assertIsOpen();
         await new_article_page.open();
         await new_article_page.publishArticle(articleData);
 
 
-        article_page = new ArticlePage(page, await TestHelpers.extractFromResponse(createArticleResponsePromise, 'article.slug'));
+        article_page = new ArticlePage(page, await TestHelpers.extractFromResponse(createAericleCall, 'article.slug'));
+        await article_page.assertIsOpen();
+        await article_page.assertArticleHasCorrectData(articleData);
     });
-
 
     test('User cannot create an acrticle unauthorised', async ({ page }) => {
-        const createArticleResponsePromise = page.waitForResponse('**/api/articles');
+        const createAericleCall = page.waitForResponse('**/api/articles');
 
         await new_article_page.open();
         await new_article_page.publishArticle(articleData);
 
-        await new_article_page.assertPageIsOpen();
-        const response = await createArticleResponsePromise;
-        expect(response.status()).toBe(401);
+        await new_article_page.assertIsOpen();
+        Assertions.assertResponseCodeIs(createAericleCall, 401);
     });
+
+        test('User cannot submit an empty artcle', async ({ page }) => {
+        await login_page.open();
+        await login_page.login(email, password);
+        await home_page.assertIsOpen();
+        await new_article_page.open();
+        await new_article_page.clickPublishArticleButton();
+
+
+
+    });
+
 });
