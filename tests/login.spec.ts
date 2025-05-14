@@ -28,7 +28,7 @@ test.describe('Login tests', () => {
     await login_page.open();
     await login_page.login(notExistingEmail, wrongPassword);
 
-    await expect(login_page.elements.errorMessage()).toContainText('email or password:is invalid');
+    await login_page.error_messeges_modal.assertErrorIsShown('email or password:is invalid')
   });
 
   test('User cannot login with username', async ({ page }) => {
@@ -47,13 +47,13 @@ test.describe('Login tests', () => {
     { email: 'test@', password: 'wrongPass', screenshot: 'no_domain.png' },
     { email: 'test', password: 'wrongPass', screenshot: 'only_local.png' },
     { email: 'test@domain', password: 'wrongPass', screenshot: 'no_top_level_domain.png' },
-  ].forEach(({ email, password, screenshot: screenshotName }) => {
+  ].forEach(({ email, password, screenshot }) => {
     test(`User cannot log in with incorrectly formatted ${email} email`, async ({ page }) => {
       await login_page.open();
       await login_page.login(email, password);
 
       await expect(home_page.elements.componentWrapper()).not.toBeVisible();
-      await expect(page).toHaveScreenshot(screenshotName);
+      await expect(page).toHaveScreenshot(screenshot);
     });
   });
 });
